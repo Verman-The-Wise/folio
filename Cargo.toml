@@ -1,0 +1,25 @@
+[package]
+name = "folio"
+version = "0.2.0"
+edition = "2021"
+description = "Flat-file personal forum, wiki & pages — static site generator"
+
+[[bin]]
+name = "folio"
+path = "src/main.rs"
+
+[dependencies]
+pulldown-cmark  = "0.11"
+toml            = "0.8"
+serde           = { version = "1", features = ["derive"] }
+serde_json      = "1"
+minijinja       = "2"
+chrono          = { version = "0.4", features = ["serde"] }
+walkdir         = "2"
+colored         = "2"
+slug            = "0.1"
+
+[profile.release]
+opt-level  = 3
+lto        = true
+codegen-units = 1

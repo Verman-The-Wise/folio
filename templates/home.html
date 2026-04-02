@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if home_image or home_header %}
+<div class="home-header">
+  {% if home_image %}
+  <img class="home-header-image" src="{{ home_image }}" alt="">
+  {% endif %}
+  {% if home_header %}
+  <div class="home-header-text">{{ home_header | safe }}</div>
+  {% endif %}
+</div>
+{% endif %}
+
+{% if is_archive %}
+<div class="section-label">{{ all_posts_count }} entries</div>
+{% endif %}
+
+{% for post in image_posts %}
+{% if loop.first %}<div class="feed-images">{% endif %}
+  {% for img in post.images %}
+  <a href="/posts/{{ post.slug }}/" title="{{ post.title }}">
+    <img src="{{ img }}" alt="{{ post.title }}" loading="lazy">
+  </a>
+  {% endfor %}
+{% if loop.last %}</div>{% endif %}
+{% endfor %}
+
+<div class="feed">
+  {% for post in text_posts %}
+  <a class="post-card" href="/posts/{{ post.slug }}/">
+    <div class="post-card-top">
+      <time class="post-card-date">{{ post.date_display }}</time>
+      <span class="post-card-title">
+        {% if post.pinned %}<span class="post-card-pinned">★</span>{% endif %}{{ post.title }}
+      </span>
+      {% for tag in post.tags %}
+      {% if loop.first %}<span class="post-card-tags">{% endif %}
+        <span class="post-card-tag">#{{ tag }}</span>
+      {% if loop.last %}</span>{% endif %}
+      {% endfor %}
+    </div>
+    {% if post.excerpt_html %}
+    <div class="post-card-excerpt">{{ post.excerpt_html | safe }}</div>
+    {% endif %}
+  </a>
+  {% else %}
+  <p style="font-size:.9rem;color:var(--dim)">no entries yet</p>
+  {% endfor %}
+</div>
+
+{% if show_all %}
+<div class="show-all"><a href="/posts/">all {{ all_posts_count }} →</a></div>
+{% endif %}
+
+{% endblock %}

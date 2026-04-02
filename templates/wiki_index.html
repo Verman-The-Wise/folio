@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-head">
+  <h1>wiki</h1>
+  <div class="page-head-meta">{{ wiki_pages | length }} pages</div>
+</div>
+
+<div class="wiki-cats">
+  {% for cat in categories %}
+  <section>
+    <div class="wiki-cat-name">{{ cat.name }}</div>
+    <div class="wiki-list">
+      {% for page in cat.pages %}
+      <a class="wiki-list-item" href="/wiki/{{ page.slug }}/">
+        <span>{{ page.title }}</span>
+        {% if page.description %}
+        <span class="wiki-list-desc">{{ page.description }}</span>
+        {% endif %}
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+  {% else %}
+  <span style="font-size:.78rem;color:var(--dim)">no wiki pages yet</span>
+  {% endfor %}
+</div>
+
+{% endblock %}

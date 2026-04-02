@@ -1,0 +1,474 @@
+/* folio — xxiivv-style, comfortable reading size --------------------------- */
+
+:root {
+  --bg:      #000;
+  --fg:      #fff;
+  --dim:     #666;
+  --dim2:    #333;
+  --nav-w:   220px;
+  --gap:     48px;
+  --gap-sm:  24px;
+}
+
+/* ── Reset ----------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 17px; }
+
+body {
+  font-family: 'Lucida Grande', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  line-height: 1.7;
+  min-height: 100vh;
+}
+
+/* ── Layout ---------------------------------------------------------------- */
+.wrapper {
+  display: grid;
+  grid-template-columns: var(--nav-w) 1fr;
+  min-height: 100vh;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ── Left nav -------------------------------------------------------------- */
+nav.site-nav {
+  padding: var(--gap) var(--gap-sm);
+  border-right: 1px solid var(--dim2);
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.nav-logo {
+  display: block;
+  margin-bottom: 32px;
+}
+.nav-logo-text {
+  font-size: 1rem;
+  color: var(--fg);
+  text-transform: lowercase;
+  letter-spacing: .02em;
+  text-decoration: none;
+  font-weight: bold;
+}
+.nav-logo-text:hover { opacity: .6; }
+.nav-logo img { max-width: 100%; display: block; }
+
+.nav-section {
+  list-style: none;
+  margin-bottom: 24px;
+}
+.nav-section li { line-height: 1; }
+.nav-section a {
+  display: block;
+  font-size: .94rem;
+  color: var(--dim);
+  text-decoration: none;
+  padding: 5px 0;
+  text-transform: lowercase;
+  border-bottom: 1px solid var(--dim2);
+  transition: color .1s;
+}
+.nav-section a:hover,
+.nav-section a.active { color: var(--fg); }
+
+/* Inline search at bottom of nav */
+.nav-search {
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px solid var(--dim2);
+}
+.nav-search input {
+  width: 100%;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--dim2);
+  color: var(--fg);
+  font-size: .9rem;
+  padding: 5px 0;
+  outline: none;
+  font-family: inherit;
+}
+.nav-search input::placeholder { color: var(--dim); }
+.nav-search input:focus { border-color: var(--fg); }
+.nav-search-results {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+}
+.nav-search-results a {
+  font-size: .82rem;
+  color: var(--dim);
+  text-decoration: none;
+  padding: 4px 0;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--dim2);
+}
+.nav-search-results a:hover { color: var(--fg); }
+.nav-search-results .kind { font-size: .75rem; color: var(--dim2); }
+
+/* ── Main content ---------------------------------------------------------- */
+main.site-main {
+  padding: var(--gap);
+  min-width: 0;
+  max-width: 760px;
+}
+
+/* ── Home header ----------------------------------------------------------- */
+/* Custom text + optional image above the feed */
+.home-header {
+  margin-bottom: 40px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--dim2);
+}
+.home-header-image {
+  display: block;
+  width: 100%;
+  margin-bottom: 20px;
+  filter: grayscale(20%);
+}
+.home-header-text {
+  font-size: 1rem;
+  color: var(--dim);
+  line-height: 1.7;
+}
+.home-header-text p { margin-bottom: .5em; }
+.home-header-text p:last-child { margin-bottom: 0; }
+.home-header-text a { color: var(--fg); }
+
+/* ── Image gallery feed ---------------------------------------------------- */
+.feed-images {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3px;
+  margin-bottom: 24px;
+}
+.feed-images a { display: block; aspect-ratio: 1; overflow: hidden; }
+.feed-images img {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+  filter: grayscale(100%); opacity: .7;
+  transition: opacity .2s, filter .2s;
+}
+.feed-images a:hover img { opacity: 1; filter: grayscale(0%); }
+
+/* ── Post feed ------------------------------------------------------------- */
+/* Each card is a flex column — title row + excerpt paragraph below */
+.feed { display: flex; flex-direction: column; }
+
+.post-card {
+  display: flex;
+  flex-direction: column;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--dim2);
+  text-decoration: none;
+  color: inherit;
+  gap: 5px;
+}
+.post-card:hover .post-card-title { color: var(--dim); }
+
+/* Top row: date + title + tags all inline */
+.post-card-top {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.post-card-date {
+  font-size: .82rem;
+  color: var(--dim);
+  white-space: nowrap;
+  flex-shrink: 0;
+  width: 88px;
+}
+.post-card-title {
+  font-size: 1rem;
+  color: var(--fg);
+  flex: 1;
+}
+.post-card-pinned { color: var(--dim); font-size: .75rem; margin-right: 5px; }
+.post-card-tags { display: inline-flex; gap: 6px; flex-wrap: wrap; }
+.post-card-tag {
+  font-size: .78rem;
+  color: var(--dim);
+  text-decoration: none;
+}
+.post-card-tag:hover { color: var(--fg); }
+
+/* Excerpt: full paragraph, not inline — indented to align with title */
+.post-card-excerpt {
+  padding-left: calc(88px + 16px); /* match date width + gap */
+  font-size: .9rem;
+  color: var(--dim);
+  line-height: 1.6;
+}
+.post-card-excerpt p { margin: 0; }
+
+.show-all {
+  padding-top: 16px;
+  font-size: .88rem;
+  color: var(--dim);
+}
+.show-all a { color: var(--dim); text-decoration: none; }
+.show-all a:hover { color: var(--fg); }
+
+/* ── Archive label --------------------------------------------------------- */
+.section-label {
+  font-size: .82rem;
+  color: var(--dim);
+  text-transform: lowercase;
+  margin-bottom: 16px;
+}
+
+/* ── Page / post header ---------------------------------------------------- */
+.page-head { margin-bottom: 32px; }
+.page-head h1 {
+  font-size: 1.05rem;
+  font-weight: bold;
+  color: var(--fg);
+  text-transform: lowercase;
+  margin-bottom: 8px;
+}
+.page-head-meta {
+  font-size: .88rem;
+  color: var(--dim);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.page-head-meta a { color: var(--dim); text-decoration: none; }
+.page-head-meta a:hover { color: var(--fg); }
+
+/* ── Hero image (image-only posts) ---------------------------------------- */
+.post-hero { margin-bottom: 28px; }
+.post-hero img { display: block; width: 100%; filter: grayscale(20%); }
+
+/* ── Prose ----------------------------------------------------------------- */
+.prose {
+  font-size: 1rem;
+  line-height: 1.78;
+  color: var(--fg);
+  max-width: 640px;
+}
+.prose h1, .prose h2, .prose h3, .prose h4 {
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--fg);
+  margin: 2em 0 .6em;
+  text-transform: lowercase;
+}
+.prose p { margin-bottom: 1em; }
+.prose a {
+  color: var(--fg);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-color: var(--dim);
+}
+.prose a:hover { opacity: .6; }
+.prose strong { color: var(--fg); font-weight: bold; }
+.prose em { font-style: italic; color: var(--dim); }
+.prose blockquote {
+  border-left: 2px solid var(--dim2);
+  padding-left: 16px;
+  color: var(--dim);
+  margin: 1em 0;
+}
+.prose code {
+  font-family: 'Lucida Console', Monaco, monospace;
+  font-size: .85em;
+  color: var(--dim);
+  background: #111;
+  padding: .15em .35em;
+}
+.prose pre {
+  background: #111;
+  border: 1px solid var(--dim2);
+  padding: 16px;
+  overflow-x: auto;
+  margin: 1em 0;
+}
+.prose pre code { background: none; padding: 0; color: var(--dim); font-size: .88rem; }
+.prose ul, .prose ol { padding-left: 1.5em; margin-bottom: 1em; }
+.prose li { margin-bottom: .3em; }
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .94rem;
+  margin: 1em 0;
+}
+.prose th, .prose td {
+  border-bottom: 1px solid var(--dim2);
+  padding: 6px 10px 6px 0;
+  text-align: left;
+}
+.prose th { color: var(--dim); font-weight: normal; }
+.prose hr { border: none; border-top: 1px solid var(--dim2); margin: 1.6em 0; }
+.prose img { max-width: 100%; display: block; margin: 1em 0; filter: grayscale(20%); }
+.wikilink-dead {
+  border-bottom: 1px dashed var(--dim);
+  color: var(--dim);
+  cursor: help;
+}
+
+/* ── Outbound links / backlinks -------------------------------------------- */
+.links-out, .backlinks {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid var(--dim2);
+}
+.links-label {
+  font-size: .82rem;
+  color: var(--dim);
+  margin-bottom: 10px;
+}
+.links-list { display: flex; flex-direction: column; }
+.link-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--dim2);
+  text-decoration: none;
+  font-size: .94rem;
+  color: var(--dim);
+  transition: color .1s;
+}
+.link-item:hover { color: var(--fg); }
+.link-item-kind { font-size: .78rem; color: var(--dim2); }
+
+/* ── Post navigation ------------------------------------------------------- */
+.post-nav {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid var(--dim2);
+  display: flex;
+  justify-content: space-between;
+  gap: 32px;
+}
+.post-nav-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-decoration: none;
+  flex: 1;
+}
+.post-nav-item.right { text-align: right; }
+.post-nav-label { font-size: .75rem; color: var(--dim2); }
+.post-nav-title { font-size: .94rem; color: var(--dim); }
+.post-nav-item:hover .post-nav-title { color: var(--fg); }
+
+/* ── Wiki index ------------------------------------------------------------ */
+.wiki-cats { display: flex; flex-direction: column; gap: 32px; }
+.wiki-cat-name {
+  font-size: .82rem;
+  color: var(--dim);
+  text-transform: lowercase;
+  border-bottom: 1px solid var(--dim2);
+  padding-bottom: 6px;
+  margin-bottom: 8px;
+}
+.wiki-list { display: flex; flex-direction: column; }
+.wiki-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--dim2);
+  text-decoration: none;
+  font-size: .94rem;
+  color: var(--dim);
+  transition: color .1s;
+}
+.wiki-list-item:hover { color: var(--fg); }
+.wiki-list-desc {
+  font-size: .82rem;
+  color: var(--dim2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 50%;
+  text-align: right;
+}
+
+/* ── Wiki page with TOC ---------------------------------------------------- */
+.wiki-body {
+  display: grid;
+  grid-template-columns: 1fr 160px;
+  gap: 40px;
+  align-items: start;
+}
+.wiki-toc {
+  position: sticky;
+  top: 24px;
+  border-left: 1px solid var(--dim2);
+  padding-left: 14px;
+}
+.wiki-toc-label {
+  font-size: .78rem;
+  color: var(--dim2);
+  margin-bottom: 8px;
+  text-transform: lowercase;
+}
+.wiki-toc ul { list-style: none; padding: 0; }
+.wiki-toc a {
+  display: block;
+  font-size: .82rem;
+  color: var(--dim);
+  text-decoration: none;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--dim2);
+}
+.wiki-toc a:hover { color: var(--fg); }
+.wiki-toc .toc-h3 { padding-left: 10px; font-size: .78rem; }
+.wiki-toc .toc-h4 { padding-left: 20px; font-size: .75rem; }
+
+/* ── Tag page -------------------------------------------------------------- */
+.tag-heading { font-size: 1rem; color: var(--dim); margin-bottom: 20px; }
+
+/* ── Footer ---------------------------------------------------------------- */
+footer.site-footer {
+  grid-column: 1 / -1;
+  border-top: 1px solid var(--dim2);
+  padding: 16px var(--gap);
+  font-size: .82rem;
+  color: var(--dim2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+footer.site-footer a { color: var(--dim2); text-decoration: none; }
+footer.site-footer a:hover { color: var(--fg); }
+
+/* ── Mobile ---------------------------------------------------------------- */
+@media (max-width: 680px) {
+  html { font-size: 16px; }
+  .wrapper { grid-template-columns: 1fr; }
+  nav.site-nav {
+    position: static;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--dim2);
+    padding: 16px 20px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  .nav-logo { margin-bottom: 0; }
+  .nav-section { margin-bottom: 0; }
+  .nav-search { margin-top: 0; padding-top: 0; border-top: none; width: 100%; }
+  main.site-main { padding: 20px; }
+  .wiki-body { grid-template-columns: 1fr; }
+  .wiki-toc { display: none; }
+  .feed-images { grid-template-columns: repeat(2, 1fr); }
+  footer.site-footer { grid-column: 1; padding: 16px 20px; }
+  .post-card-excerpt { padding-left: 0; }
+}

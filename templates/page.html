@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-head">
+  <h1>{{ page.title }}</h1>
+  {% if page.description %}
+  <div class="page-head-meta">{{ page.description }}</div>
+  {% endif %}
+</div>
+
+<div class="prose">{{ page.html_content | safe }}</div>
+
+{% for wl in page.wikilinks %}
+{% if loop.first %}
+<div class="links-out">
+  <div class="links-label">links</div>
+  <div class="links-list">
+{% endif %}
+{% if wl.kind != "unresolved" %}
+    <a class="link-item" href="{{ wl.url }}">
+      <span>{{ wl.text }}</span>
+      <span class="link-item-kind">{{ wl.kind }}</span>
+    </a>
+{% endif %}
+{% if loop.last %}
+  </div>
+</div>
+{% endif %}
+{% endfor %}
+
+{% for bl in page.backlinks %}
+{% if loop.first %}
+<div class="backlinks">
+  <div class="links-label">referenced by</div>
+  <div class="links-list">
+{% endif %}
+    <a class="link-item" href="{{ bl.url }}">
+      <span>{{ bl.title }}</span>
+      <span class="link-item-kind">{{ bl.kind }}</span>
+    </a>
+{% if loop.last %}
+  </div>
+</div>
+{% endif %}
+{% endfor %}
+
+{% endblock %}

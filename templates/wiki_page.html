@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-head">
+  <h1>{{ page.title }}</h1>
+  <div class="page-head-meta">
+    {% if page.category %}<span>{{ page.category }}</span>{% endif %}
+    {% if page.updated %}<span>updated {{ page.updated }}</span>{% endif %}
+    {% for tag in page.tags %}
+    <a href="/wiki/tags/{{ tag | lower | replace(' ', '-') }}/">#{{ tag }}</a>
+    {% endfor %}
+  </div>
+</div>
+
+<div class="wiki-body">
+  <div class="prose">{{ page.html_content | safe }}</div>
+
+  {% if page.toc | length > 1 %}
+  <aside class="wiki-toc">
+    <div class="wiki-toc-label">contents</div>
+    <ul>
+      {% for entry in page.toc %}
+      <li><a href="#{{ entry.anchor }}" class="toc-h{{ entry.level }}">{{ entry.text }}</a></li>
+      {% endfor %}
+    </ul>
+  </aside>
+  {% endif %}
+</div>
+
+{% for wl in page.wikilinks %}
+{% if loop.first %}
+<div class="links-out">
+  <div class="links-label">links</div>
+  <div class="links-list">
+{% endif %}
+{% if wl.kind != "unresolved" %}
+    <a class="link-item" href="{{ wl.url }}">
+      <span>{{ wl.text }}</span>
+      <span class="link-item-kind">{{ wl.kind }}</span>
+    </a>
+{% endif %}
+{% if loop.last %}
+  </div>
+</div>
+{% endif %}
+{% endfor %}
+
+{% for bl in page.backlinks %}
+{% if loop.first %}
+<div class="backlinks">
+  <div class="links-label">referenced by</div>
+  <div class="links-list">
+{% endif %}
+    <a class="link-item" href="{{ bl.url }}">
+      <span>{{ bl.title }}</span>
+      <span class="link-item-kind">{{ bl.kind }}</span>
+    </a>
+{% if loop.last %}
+  </div>
+</div>
+{% endif %}
+{% endfor %}
+
+{% endblock %}

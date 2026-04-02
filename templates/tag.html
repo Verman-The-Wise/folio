@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-head">
+  <h1>#{{ tag }}</h1>
+  <div class="page-head-meta">
+    {% if kind == "wiki" %}wiki tag{% else %}journal tag{% endif %}
+  </div>
+</div>
+
+{% if kind == "wiki" %}
+<div class="wiki-list">
+  {% for page in wiki_posts %}
+  <a class="wiki-list-item" href="/wiki/{{ page.slug }}/">
+    <span>{{ page.title }}</span>
+    {% if page.description %}<span class="wiki-list-desc">{{ page.description }}</span>{% endif %}
+  </a>
+  {% else %}
+  <span style="font-size:.78rem;color:var(--dim)">no pages tagged #{{ tag }}</span>
+  {% endfor %}
+</div>
+{% else %}
+<div class="feed">
+  {% for post in posts %}
+  <a class="post-card" href="/posts/{{ post.slug }}/">
+    <span class="post-card-date">{{ post.date_display }}</span>
+    <span class="post-card-title-cell">
+      <span class="post-card-title">{{ post.title }}</span>
+      {% if post.excerpt_html %}
+      <span class="post-card-excerpt">{{ post.excerpt_html | safe }}</span>
+      {% endif %}
+    </span>
+  </a>
+  {% else %}
+  <span style="font-size:.78rem;color:var(--dim)">no posts tagged #{{ tag }}</span>
+  {% endfor %}
+</div>
+{% endif %}
+
+{% endblock %}

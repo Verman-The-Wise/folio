@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ site.title }} — {{ page_title }}</title>
+  <meta name="description" content="{{ site.description }}">
+  <link rel="stylesheet" href="/static/css/main.css">
+  <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="/feed.xml">
+</head>
+<body>
+<div class="wrapper">
+
+  <nav class="site-nav">
+    <div class="nav-logo">
+      {% if site.logo %}
+      <a href="/"><img src="{{ site.logo }}" alt="{{ site.title }}" style="max-width:100%;"></a>
+      {% else %}
+      <a class="nav-logo-text" href="/">{{ site.title }}</a>
+      {% endif %}
+    </div>
+
+    <ul class="nav-section">
+      {% for link in nav %}
+      <li><a href="{{ link.url }}">{{ link.label }}</a></li>
+      {% endfor %}
+    </ul>
+
+    <div class="nav-search">
+      <input type="search" id="nav-search" placeholder="search…" autocomplete="off">
+      <div class="nav-search-results" id="nav-search-results"></div>
+    </div>
+  </nav>
+
+  <main class="site-main">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    {% if site.footer %}
+    <span>{{ site.footer | safe }}</span>
+    {% else %}
+    <span>{{ site.author }}</span>
+    {% endif %}
+    <a href="/feed.xml">rss</a>
+  </footer>
+
+</div>
+<script src="/static/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+[site]
+title = "folio"
+description = "a personal wiki and journal"
+author = "your name"
+base_url = "/"
+
+# Optional image shown at the top of the home page (path or URL)
+# home_image = "/static/banner.jpg"
+
+# Text or HTML shown below the image, above the post feed
+home_header = "thinking out loud."
+
+# Optional footer HTML
+# footer = "name — <a href='/about/'>about</a>"
+
+[[nav]]
+label = "journal"
+url = "/posts/"
+
+[[nav]]
+label = "wiki"
+url = "/wiki/"
+
+[[nav]]
+label = "about"
+url = "/about/"
+
+[feed]
+home_count = 12
+excerpt_words = 55
