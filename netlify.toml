@@ -1,18 +1,9 @@
 [build]
-  command   = "cargo build --release && ./target/release/folio build"
-  publish   = "dist"
+  command = "cargo build --release && ./target/release/folio build"
+  publish = "dist"
  
 [build.environment]
-  RUST_VERSION = "stable"
- 
-# Cache cargo registry and build artifacts between deploys
-# This cuts rebuild time from ~60s to ~5s on unchanged dependencies
-[[plugins]]
-  package = "@netlify/plugin-caching"
- 
-  [plugins.inputs]
-    paths = [
-      ".cargo",
-      "target",
-    ]
+  # Netlify persists /opt/buildhome/.cargo between builds automatically
+  # which caches downloaded crates and avoids re-fetching on every deploy
+  CARGO_HOME = "/opt/buildhome/.cargo"
  
